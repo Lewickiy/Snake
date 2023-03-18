@@ -14,30 +14,30 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.lewickiy.snake.Corner.CORNER_SIZE;
+import static com.lewickiy.snake.Food.foodCount;
+import static com.lewickiy.snake.Food.newFood;
 
 public class SnakeApplication extends Application {
-
-    static int speed = 5;
-    static int foodColor = 0;
-    static int width = 20;
-    static int height = 20;
-    static int foodX = 0;
-    static int foodY = 0;
+    static PlayingField playingField = new PlayingField(30);
+    static Food food = new Food(20);
+    static Game game = new Game(6);
     static List<Corner> snake = new ArrayList<>();
     static Dir direction = Dir.left;
     static boolean gameOver = false;
-    static Random rand = new Random();
 
     @Override
     public void start(Stage stage) {
         try {
             newFood();
-
             VBox root = new VBox();
-            Canvas c = new Canvas(width * CORNER_SIZE, height * CORNER_SIZE);
+
+            Canvas c = new Canvas(
+                    playingField.getWidth() * CORNER_SIZE,
+                    playingField.getHeight() * CORNER_SIZE
+            );
+
             GraphicsContext gc = c.getGraphicsContext2D();
             root.getChildren().add(c);
 
@@ -50,14 +50,18 @@ public class SnakeApplication extends Application {
                         tick(gc);
                         return;
                     }
-                    if(now - lastTick > 1000000000 / speed) {
+                    if(now - lastTick > 1000000000 / game.getSpeed()) {
                         lastTick = now;
                         tick(gc);
                     }
                 }
             }.start();
 
-            Scene scene = new Scene(root, width * CORNER_SIZE, height * CORNER_SIZE);
+            Scene scene = new Scene(
+                    root,
+                    playingField.getWidth() * CORNER_SIZE,
+                    playingField.getHeight() * CORNER_SIZE
+            );
 
             //control
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key ->{
@@ -73,12 +77,21 @@ public class SnakeApplication extends Application {
                 if(key.getCode() == KeyCode.LEFT) {
                     direction = Dir.left;
                 }
+                if(key.getCode() == KeyCode.ESCAPE) {
+                    stage.close();
+
+                }
             });
 
             //add start snake parts
-            snake.add(new Corner(width / 2, height / 2));
-            snake.add(new Corner(width / 2, height / 2));
-            snake.add(new Corner(width / 2, height / 2));
+            for (int i = 0; i < 3; i++) {
+                snake.add(
+                        new Corner(
+                                playingField.getWidth() / 2,
+                                playingField.getHeight() / 2
+                        )
+                );
+            }
 
             stage.setScene(scene);
             stage.setTitle("SNAKE GAME");
@@ -92,8 +105,14 @@ public class SnakeApplication extends Application {
     public static void tick(GraphicsContext gc) {
         if(gameOver) {
             gc.setFill(Color.RED);
-            gc.setFont(new Font("", 50));
-            gc.fillText("GAME OVER", 100, 250);
+            gc.setFont(new Font("COURIER", 50));
+
+            gc.fillText(
+                    "GAME OVER",
+                    (playingField.getWidth() * CORNER_SIZE) / 3,
+                    (playingField.getHeight() * CORNER_SIZE) / 2
+
+            );
             return;
         }
         for(int i = snake.size() - 1; i >= 1; i--) {
@@ -109,7 +128,7 @@ public class SnakeApplication extends Application {
             }
             case down -> {
                 snake.get(0).y++;
-                if (snake.get(0).y > height) {
+                if (snake.get(0).y > playingField.getHeight()) {
                     gameOver = true;
                 }
             }
@@ -121,71 +140,119 @@ public class SnakeApplication extends Application {
             }
             case right -> {
                 snake.get(0).x++;
-                if (snake.get(0).x > width) {
+                if (snake.get(0).x > playingField.getWidth()) {
                     gameOver = true;
                 }
             }
         }
 
         //eat food
-        if (foodX == snake.get(0).x && foodY == snake.get(0).y) {
+        if (food.getFoodX() == snake.get(0).x &&
+                food.getFoodY() == snake.get(0).y) {
             snake.add(new Corner(-1, -1));
             newFood();
         }
 
         //self destroy
         for (int i = 1; i < snake.size(); i++) {
-            if (snake.get(0).x == snake.get(i).x && snake.get(0).y == snake.get(i).y) {
+            if (snake.get(0).x == snake.get(i).x &&
+                    snake.get(0).y == snake.get(i).y) {
                 gameOver = true;
                 break;
             }
         }
-        //fill
+
         //background
         gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, width * CORNER_SIZE, height * CORNER_SIZE);
+
+        gc.fillRect(
+                0,
+                0,
+                playingField.getWidth() * CORNER_SIZE,
+                playingField.getHeight() * CORNER_SIZE
+        );
 
         //score
         gc.setFill(Color.WHITE);
-        gc.setFont(new Font("", 30));
-        gc.fillText("Score: " + (speed - 6), 10, 30);
+        gc.setFont(new Font("MONOSPACED", 30));
+        gc.fillText("Score: " + (foodCount * 5), 10, 35);
 
-        //random food color
-        Color cc = switch (foodColor) {
-            case 0 -> Color.PURPLE;
-            case 1 -> Color.LIGHTBLUE;
-            case 2 -> Color.YELLOW;
-            case 3 -> Color.PINK;
-            case 4 -> Color.ORANGE;
-            default -> Color.WHITE;
-        };
+        //food
+        gc.setFill(Color.DARKOLIVEGREEN);
+        gc.fillRect(
+                food.getFoodX() * CORNER_SIZE,
+                food.getFoodY() * CORNER_SIZE,
+                CORNER_SIZE - 1, CORNER_SIZE - 1
+        );
+        gc.setFill(Color.GREEN);
 
-        gc.setFill(cc);
-        gc.fillOval(foodX * CORNER_SIZE, foodY * CORNER_SIZE, CORNER_SIZE, CORNER_SIZE);
+        gc.fillRect(
+                food.getFoodX() * CORNER_SIZE,
+                food.getFoodY() * CORNER_SIZE,
+                CORNER_SIZE - 2,
+                CORNER_SIZE - 2
+        );
 
         //snake
         for(Corner c : snake) {
-            gc.setFill(Color.LIGHTGREEN);
-            gc.fillRect(c.x * CORNER_SIZE, c.y * CORNER_SIZE, CORNER_SIZE - 1, CORNER_SIZE - 1);
+            gc.setFill(Color.DARKOLIVEGREEN);
+
+            gc.fillRect(
+                    c.x * CORNER_SIZE,
+                    c.y * CORNER_SIZE,
+                    CORNER_SIZE - 1,
+                    CORNER_SIZE - 1
+            );
+
             gc.setFill(Color.GREEN);
-            gc.fillRect(c.x * CORNER_SIZE, c.y * CORNER_SIZE, CORNER_SIZE - 2, CORNER_SIZE - 2);
+
+            gc.fillRect(
+                    c.x * CORNER_SIZE,
+                    c.y * CORNER_SIZE,
+                    CORNER_SIZE - 2,
+                    CORNER_SIZE - 2
+            );
         }
-    }
+        for (int i = 0; i < snake.size(); i++) {
+            Corner c = snake.get(i);
+            if (i > 0) {
+                gc.setFill(Color.GREEN);
 
-    //food
-    public static void newFood() {
-        start:while (true) {
-            foodX = rand.nextInt(width);
-            foodY = rand.nextInt(height);
+                gc.fillRect(
+                        c.x * CORNER_SIZE,
+                        c.y * CORNER_SIZE,
+                        CORNER_SIZE - 1,
+                        CORNER_SIZE - 1
+                );
 
-            for(Corner c:snake) {
-                if(c.x == foodX && c.y == foodY) {
-                    continue start;
-                }
+                gc.setFill(Color.DARKGREEN);
+
+                gc.fillRect(
+                        c.x * CORNER_SIZE,
+                        c.y * CORNER_SIZE,
+                        CORNER_SIZE - 2,
+                        CORNER_SIZE - 2
+                );
+
+            } else {
+                gc.setFill(Color.DARKOLIVEGREEN);
+
+                gc.fillRect(
+                        c.x * CORNER_SIZE,
+                        c.y * CORNER_SIZE,
+                        CORNER_SIZE - 1,
+                        CORNER_SIZE - 1
+                );
+
+                gc.setFill(Color.GREEN);
+
+                gc.fillRect(
+                        c.x * CORNER_SIZE,
+                        c.y * CORNER_SIZE,
+                        CORNER_SIZE - 2,
+                        CORNER_SIZE - 2
+                );
             }
-            foodColor = rand.nextInt(5);
-            speed++;
-            break;
         }
     }
 

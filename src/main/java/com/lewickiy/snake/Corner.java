@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Corner {
-    static final int CORNER_SIZE = 25; //проверить
+    static final int CORNER_SIZE = 25;
     int x;
     int y;
 }
