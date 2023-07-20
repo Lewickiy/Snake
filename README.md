@@ -1,2 +1,4 @@
 # Snake
-Snake game
+simple Snake game
+
+JavaFX/Lombok
