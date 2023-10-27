@@ -1,7 +1,7 @@
 package com.lewickiy.snake;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 
 import java.util.Random;
@@ -10,12 +10,11 @@ import static com.lewickiy.snake.SnakeApplication.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class Food {
     static Random rand = new Random();
     static int foodCount = -1;
-    private int foodX = 0;
-    private int foodY = 0;
+    private int foodX;
+    private int foodY;
 
     public Food(int startPosition) {
         this.foodX = startPosition;

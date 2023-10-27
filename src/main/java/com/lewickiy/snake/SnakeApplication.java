@@ -24,7 +24,7 @@ public class SnakeApplication extends Application {
     static Food food = new Food(20);
     static Game game = new Game(6);
     static List<Corner> snake = new ArrayList<>();
-    static Dir direction = Dir.left;
+    static Dir direction = Dir.LEFT;
     static boolean gameOver = false;
 
     @Override
@@ -66,16 +66,16 @@ public class SnakeApplication extends Application {
             //control
             scene.addEventFilter(KeyEvent.KEY_PRESSED, key ->{
                 if(key.getCode() == KeyCode.UP) {
-                    direction = Dir.up;
+                    direction = Dir.UP;
                 }
                 if(key.getCode() == KeyCode.DOWN) {
-                    direction = Dir.down;
+                    direction = Dir.DOWN;
                 }
                 if(key.getCode() == KeyCode.RIGHT) {
-                    direction = Dir.right;
+                    direction = Dir.RIGHT;
                 }
                 if(key.getCode() == KeyCode.LEFT) {
-                    direction = Dir.left;
+                    direction = Dir.LEFT;
                 }
                 if(key.getCode() == KeyCode.ESCAPE) {
                     stage.close();
@@ -120,25 +120,25 @@ public class SnakeApplication extends Application {
             snake.get(i).y = snake.get(i-1).y;
         }
         switch (direction) {
-            case up -> {
+            case UP -> {
                 snake.get(0).y--;
                 if (snake.get(0).y < 0) {
                     gameOver = true;
                 }
             }
-            case down -> {
+            case DOWN -> {
                 snake.get(0).y++;
                 if (snake.get(0).y > playingField.getHeight()) {
                     gameOver = true;
                 }
             }
-            case left -> {
+            case LEFT -> {
                 snake.get(0).x--;
                 if (snake.get(0).x < 0) {
                     gameOver = true;
                 }
             }
-            case right -> {
+            case RIGHT -> {
                 snake.get(0).x++;
                 if (snake.get(0).x > playingField.getWidth()) {
                     gameOver = true;
