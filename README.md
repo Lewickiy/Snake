@@ -1,4 +1,4 @@
 # Snake
 simple Snake game
 
-JavaFX/Lombok
+JavaFX/Lombok/JUnit4
