@@ -15,7 +15,7 @@ public class PlayingFieldTest {
     public int expectedWidth;
 
     @Parameterized.Parameters
-    public static Object[][] getAntsMovementResult() {
+    public static Object[][] getSetValuesHeightWidth() {
         return new Object[][] {
                 {-1, 20, 20},
                 {0, 20, 20},
@@ -25,7 +25,7 @@ public class PlayingFieldTest {
     }
 
     @Test
-    public void test() {
+    public void testSizeHeightWidth() {
         PlayingField pf = new PlayingField(size);
         int actualHeight = pf.getHeight();
         int actualWidth = pf.getWidth();
