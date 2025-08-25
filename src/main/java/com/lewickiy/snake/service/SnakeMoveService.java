@@ -4,16 +4,18 @@ import com.lewickiy.snake.entity.Corner;
 import com.lewickiy.snake.enumeration.Direction;
 
 import java.util.List;
-
 /**
- * Сервис движения змеи
+ * Service responsible for handling snake movement.
  */
 public class SnakeMoveService {
 
     /**
-     * Обеспечивает изменение направления движения Змеи, в зависимости от полученного значения {@link Direction}
-     * @param snake змея, для которой происходит изменение направления движения
-     * @param direction обновлённое направление движения
+     * Updates the positions of the snake segments according to the given {@link Direction}.
+     * The head moves in the specified direction, and each subsequent segment
+     * follows the previous segment's position.
+     *
+     * @param snake the list of {@link Corner} objects representing the snake
+     * @param direction the new direction for the snake's head
      */
     public static void moveSnake(List<Corner> snake, Direction direction) {
         for (int i = snake.size() - 1; i >= 1; i--) {
