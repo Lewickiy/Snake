@@ -1,18 +1,20 @@
-package com.lewickiy.snake;
+package com.lewickiy.snake.entity;
 
 import lombok.Getter;
-
 import lombok.Setter;
 
 import java.util.Random;
 
-import static com.lewickiy.snake.SnakeApplication.*;
+import static com.lewickiy.snake.SnakeApplication.food;
+import static com.lewickiy.snake.SnakeApplication.game;
+import static com.lewickiy.snake.SnakeApplication.playingField;
+import static com.lewickiy.snake.SnakeApplication.snake;
 
 @Getter
 @Setter
 public class Food {
-    static Random rand = new Random();
-    static int foodCount = -1;
+    public static Random rand = new Random();
+    public static int foodCount = -1;
     private int foodX;
     private int foodY;
 
@@ -30,7 +32,7 @@ public class Food {
                     continue start;
                 }
             }
-            if (foodCount%5 == 0 && game.getSpeed() > 1) {
+            if (foodCount % 5 == 0 && game.getSpeed() > 1) {
                 game.setSpeed(game.getSpeed() + 1);
             }
             foodCount++;

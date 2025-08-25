@@ -1,6 +1,7 @@
 package com.lewickiy.snake;
 
 import lombok.Getter;
+
 @Getter
 public class Game {
     private int speed = 1;

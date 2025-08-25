@@ -8,4 +8,10 @@ module com.lewickiy.snake {
 
     opens com.lewickiy.snake to javafx.fxml;
     exports com.lewickiy.snake;
+    exports com.lewickiy.snake.service;
+    opens com.lewickiy.snake.service to javafx.fxml;
+    exports com.lewickiy.snake.enumeration;
+    opens com.lewickiy.snake.enumeration to javafx.fxml;
+    exports com.lewickiy.snake.entity;
+    opens com.lewickiy.snake.entity to javafx.fxml;
 }
