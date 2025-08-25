@@ -25,13 +25,14 @@ import static com.lewickiy.snake.configuration.ProjectConstants.direction;
 
 public class SnakeApplication extends Application {
 
-    private static final RenderService renderService = new RenderService();
     public static PlayingField playingField = new PlayingField(FIELD_SIZE);
-    private static final CollisionService collisionService = new CollisionService(playingField);
+    public static Food food = new Food(0, 0);
     public static List<Corner> snake = new ArrayList<>();
-    static boolean gameOver = false;
-    public static Food food = new Food(0);
     public static Game game = new Game(INITIAL_SPEED);
+
+    private static final CollisionService collisionService = new CollisionService(playingField);
+    private static final RenderService renderService = new RenderService();
+    static boolean gameOver = false;
 
     public static void tick(GraphicsContext gc) {
         if (gameOver) {
@@ -86,7 +87,6 @@ public class SnakeApplication extends Application {
         launch();
     }
 
-    /// # init snake
     private void initSnake() {
         for (int i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
             snake.add(new Corner(
@@ -97,11 +97,10 @@ public class SnakeApplication extends Application {
     }
 
     private Canvas createCanvas() {
-        Canvas canvas = new Canvas(
+        return new Canvas(
                 playingField.getWidth() * CORNER_SIZE,
                 playingField.getHeight() * CORNER_SIZE
         );
-        return canvas;
     }
 
     private Scene createScene(Canvas canvas, Stage stage) {

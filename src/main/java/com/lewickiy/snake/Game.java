@@ -13,4 +13,9 @@ public class Game {
     public void setSpeed(int speed) {
         this.speed = Math.max(speed, 1);
     }
+
+    public int incrementSpeed() {
+        speed++;
+        return this.speed;
+    }
 }
