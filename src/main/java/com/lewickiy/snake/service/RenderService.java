@@ -1,27 +1,33 @@
 package com.lewickiy.snake.service;
 
-import com.lewickiy.snake.entity.Corner;
-import com.lewickiy.snake.entity.Food;
 import com.lewickiy.snake.Game;
 import com.lewickiy.snake.PlayingField;
+import com.lewickiy.snake.entity.Corner;
+import com.lewickiy.snake.entity.Food;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.List;
 
-import static com.lewickiy.snake.entity.Food.foodCount;
 import static com.lewickiy.snake.configuration.ProjectConstants.CORNER_SIZE;
+import static com.lewickiy.snake.configuration.ProjectConstants.FONT_TYPE;
+import static com.lewickiy.snake.entity.Food.foodCount;
 
 public class RenderService {
+
+    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    private static final Color GAME_INFO_TEXT_COLOR = Color.WHITE;
+    private static final Color GAME_OVER_TEXT_COLOR = Color.RED;
+    private static final int GAME_OVER_TEXT_SIZE = 50;
+
     public void render(GraphicsContext gc, List<Corner> snake, Food food, PlayingField field, Game game) {
-        // background
-        gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, field.getWidth() * CORNER_SIZE, field.getHeight() * CORNER_SIZE);
+
+        renderBackground(gc, field);
 
         // score
-        gc.setFill(Color.WHITE);
-        gc.setFont(new Font("MONOSPACED", 30));
+        gc.setFill(GAME_INFO_TEXT_COLOR);
+        gc.setFont(new Font(FONT_TYPE, 30));
         gc.fillText("SCORE: " + (foodCount * 5), 10, 35);
 
         // speed
@@ -53,12 +59,17 @@ public class RenderService {
     }
 
     public void renderGameOver(GraphicsContext gc, PlayingField field) {
-        gc.setFill(Color.RED);
-        gc.setFont(new Font("COURIER", 50));
+        gc.setFill(GAME_OVER_TEXT_COLOR);
+        gc.setFont(new Font(FONT_TYPE, GAME_OVER_TEXT_SIZE));
         gc.fillText(
                 "GAME OVER",
                 (double) (field.getWidth() * CORNER_SIZE) / 3,
                 (double) (field.getHeight() * CORNER_SIZE) / 2
         );
+    }
+
+    private void renderBackground(GraphicsContext gc, PlayingField field) {
+        gc.setFill(BACKGROUND_COLOR);
+        gc.fillRect(0, 0, field.getWidth() * CORNER_SIZE, field.getHeight() * CORNER_SIZE);
     }
 }

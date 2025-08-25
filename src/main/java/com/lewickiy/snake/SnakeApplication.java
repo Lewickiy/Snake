@@ -16,12 +16,13 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lewickiy.snake.entity.Food.newFood;
+import static com.lewickiy.snake.configuration.ProjectConstants.APPLICATION_TITLE;
 import static com.lewickiy.snake.configuration.ProjectConstants.CORNER_SIZE;
 import static com.lewickiy.snake.configuration.ProjectConstants.FIELD_SIZE;
 import static com.lewickiy.snake.configuration.ProjectConstants.INITIAL_SNAKE_LENGTH;
 import static com.lewickiy.snake.configuration.ProjectConstants.INITIAL_SPEED;
 import static com.lewickiy.snake.configuration.ProjectConstants.direction;
+import static com.lewickiy.snake.entity.Food.newFood;
 
 public class SnakeApplication extends Application {
 
@@ -76,7 +77,7 @@ public class SnakeApplication extends Application {
             initSnake();
 
             stage.setScene(scene);
-            stage.setTitle("SNAKE GAME");
+            stage.setTitle(APPLICATION_TITLE);
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
