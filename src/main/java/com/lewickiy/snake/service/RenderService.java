@@ -1,7 +1,7 @@
 package com.lewickiy.snake.service;
 
-import com.lewickiy.snake.Game;
-import com.lewickiy.snake.PlayingField;
+import com.lewickiy.snake.entity.Game;
+import com.lewickiy.snake.entity.PlayingField;
 import com.lewickiy.snake.entity.Corner;
 import com.lewickiy.snake.entity.Food;
 import javafx.scene.canvas.GraphicsContext;

@@ -5,6 +5,7 @@ module com.lewickiy.snake {
     requires static lombok;
 
     requires junit;
+    requires java.logging;
 
     opens com.lewickiy.snake to javafx.fxml;
     exports com.lewickiy.snake;

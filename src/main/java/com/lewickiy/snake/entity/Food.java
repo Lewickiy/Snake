@@ -21,7 +21,7 @@ public class Food {
 
     public static Random rand = new Random();
 
-    public static int foodCount = 0;
+    public static int foodCount = -1;
     private int foodX;
     private int foodY;
 
@@ -55,6 +55,7 @@ public class Food {
                 game.setSpeed(newSpeed);
             }
             foodCount++;
+
             break;
         }
     }

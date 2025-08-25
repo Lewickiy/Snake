@@ -1,4 +1,4 @@
-package com.lewickiy.snake;
+package com.lewickiy.snake.entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -2,6 +2,8 @@ package com.lewickiy.snake;
 
 import com.lewickiy.snake.entity.Corner;
 import com.lewickiy.snake.entity.Food;
+import com.lewickiy.snake.entity.Game;
+import com.lewickiy.snake.entity.PlayingField;
 import com.lewickiy.snake.service.CollisionService;
 import com.lewickiy.snake.service.RenderService;
 import com.lewickiy.snake.service.SnakeMoveService;
@@ -15,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static com.lewickiy.snake.configuration.ProjectConstants.APPLICATION_TITLE;
 import static com.lewickiy.snake.configuration.ProjectConstants.CORNER_SIZE;
@@ -32,6 +35,7 @@ public class SnakeApplication extends Application {
     public static Game game = new Game(INITIAL_SPEED);
 
     private static final CollisionService collisionService = new CollisionService(playingField);
+    private static final Logger logger = Logger.getLogger(SnakeApplication.class.getName());
     private static final RenderService renderService = new RenderService();
     static boolean gameOver = false;
 
@@ -49,13 +53,11 @@ public class SnakeApplication extends Application {
             gameOver = true;
         }
 
-        // проверка еды
         if (collisionService.checkFoodCollision(snake.getFirst(), food)) {
             snake.add(new Corner(-1, -1));
             newFood();
         }
 
-        // рендер
         renderService.render(gc, snake, food, playingField, game);
     }
 
@@ -80,7 +82,7 @@ public class SnakeApplication extends Application {
             stage.setTitle(APPLICATION_TITLE);
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warning(e.getMessage());
         }
     }
 
@@ -111,6 +113,7 @@ public class SnakeApplication extends Application {
                 playingField.getHeight() * CORNER_SIZE
         );
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new SnakeKeyHandler(stage));
+        logger.info("Scene created");
         return scene;
     }
 }

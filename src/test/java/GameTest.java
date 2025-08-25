@@ -1,4 +1,4 @@
-import com.lewickiy.snake.Game;
+import com.lewickiy.snake.entity.Game;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

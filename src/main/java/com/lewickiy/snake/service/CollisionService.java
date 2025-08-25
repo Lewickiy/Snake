@@ -2,7 +2,7 @@ package com.lewickiy.snake.service;
 
 import com.lewickiy.snake.entity.Corner;
 import com.lewickiy.snake.entity.Food;
-import com.lewickiy.snake.PlayingField;
+import com.lewickiy.snake.entity.PlayingField;
 
 import java.util.List;
 
